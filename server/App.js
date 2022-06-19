@@ -54,11 +54,22 @@ app.route('/api/login')
         where: {
           email: req.body.email,
           AND: [
-            { password: req.body.password }
+            {
+              password: {
+                contains: req.body.password
+              }
+            }
           ]
         }
       });
-      res.send(user);
+
+      if (req.body.email !== undefined && req.body.password !== undefined) {
+        res.send(user);
+      } else if (req.body.email !== undefined) {
+        res.status(401).json({ message: `Votre mot de passe n'est pas correct. Attention, ne l'oubliez pas ! Pour rappel, votre mot de passe est : ${user.password}` });
+      } else {
+        res.status(401).json({ message: 'Merci de rentrer vos identifiants' });
+      }
     }
 
     main()
