@@ -17,6 +17,8 @@ const Form = ({
     uuid: uuid.v4(), titre: '', description: '', priorite: 1, date: new Date().toISOString()
   };
 
+  const user = () => JSON.parse(localStorage.getItem('user'));
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -74,7 +76,7 @@ const Form = ({
 
   return (
     <div>
-      <h1 className="text-center font-bold text-3xl mb-5">ToDo List</h1>
+      <h1 className="text-center font-bold text-3xl mb-5">Bienvenue {user()?.firstname}</h1>
       <div className="bg-gray-800 rounded-lg p-5 text-white">
         {isEditing ? (
           <h2 className="text-center font-bold text-2xl">Modifier une tâche</h2>

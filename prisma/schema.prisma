@@ -9,9 +9,22 @@ datasource db {
 
 model todos {
   uuid        String   @id @db.VarChar(50)
+  user_id     Int      @default(0)
   titre       String   @db.VarChar(100)
   description String?  @db.Text
   priorite    Int
   date        DateTime @db.Date
   isDone      Boolean  @default(false)
+  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id")
+
+  @@index([user_id], map: "user_id")
+}
+
+model user {
+  id        Int     @id @default(autoincrement())
+  lastname  String? @db.VarChar(50)
+  firstname String? @db.VarChar(50)
+  email     String? @db.VarChar(50)
+  password  String? @db.VarChar(50)
+  todos     todos[]
 }
